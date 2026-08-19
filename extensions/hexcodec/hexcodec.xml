@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+  <custom_function>
+    <namespace>hexCodec</namespace>
+    <name>decode</name>
+    <return_type>String</return_type>
+    <parameter_types>String</parameter_types>
+    <execute_function_name>decodeExecute</execute_function_name>
+    <script_engine>javascript</script_engine>
+    <varargs>false</varargs>
+    <script>
+function decodeExecute(hex_string) {
+    if (hex_string === null || hex_string === undefined) {
+        return null;
+    }
+    if (typeof hex_string !== 'string') {
+        hex_string = String(hex_string);
+    }
+    if (hex_string.length === 0) {
+        return '';
+    }
+    var MAX_INPUT_LEN = 131072;
+    var hex = hex_string.replace(/[\s]/g, '');
+    if (hex.length &gt;= 2 &amp;&amp; hex.charAt(0) === '0' &amp;&amp;
+        (hex.charAt(1) === 'x' || hex.charAt(1) === 'X')) {
+        hex = hex.substring(2);
+    }
+    if (hex.length === 0) {
+        return '';
+    }
+    if (hex.length &gt; MAX_INPUT_LEN) {
+        hex = hex.substring(0, MAX_INPUT_LEN);
+    }
+    if (hex.length % 2 !== 0) {
+        return null;
+    }
+    var result = [];
+    for (var i = 0; i &lt; hex.length; i += 2) {
+        var hi = hex.charCodeAt(i);
+        var lo = hex.charCodeAt(i + 1);
+        var hiVal, loVal;
+        if (hi &gt;= 48 &amp;&amp; hi &lt;= 57)       hiVal = hi - 48;
+        else if (hi &gt;= 65 &amp;&amp; hi &lt;= 70)  hiVal = hi - 55;
+        else if (hi &gt;= 97 &amp;&amp; hi &lt;= 102) hiVal = hi - 87;
+        else return null;
+        if (lo &gt;= 48 &amp;&amp; lo &lt;= 57)       loVal = lo - 48;
+        else if (lo &gt;= 65 &amp;&amp; lo &lt;= 70)  loVal = lo - 55;
+        else if (lo &gt;= 97 &amp;&amp; lo &lt;= 102) loVal = lo - 87;
+        else return null;
+        result.push(String.fromCharCode((hiVal &lt;&lt; 4) | loVal));
+    }
+    return result.join('');
+}
+    </script>
+    <username>admin</username>
+  </custom_function>
+  <custom_function>
+    <namespace>hexCodec</namespace>
+    <name>encode</name>
+    <return_type>String</return_type>
+    <parameter_types>String</parameter_types>
+    <execute_function_name>encodeExecute</execute_function_name>
+    <script_engine>javascript</script_engine>
+    <varargs>false</varargs>
+    <script>
+function encodeExecute(plain_string) {
+    if (plain_string === null || plain_string === undefined) {
+        return null;
+    }
+    if (typeof plain_string !== 'string') {
+        plain_string = String(plain_string);
+    }
+    if (plain_string.length === 0) {
+        return '';
+    }
+    var MAX_INPUT_LEN = 65536;
+    var HEX_CHARS = '0123456789ABCDEF';
+    var src = plain_string;
+    if (src.length &gt; MAX_INPUT_LEN) {
+        src = src.substring(0, MAX_INPUT_LEN);
+    }
+    var result = [];
+    for (var i = 0; i &lt; src.length; i++) {
+        var code = src.charCodeAt(i);
+        if (code &lt;= 255) {
+            result.push(HEX_CHARS.charAt((code &gt;&gt; 4) &amp; 0x0F));
+            result.push(HEX_CHARS.charAt(code &amp; 0x0F));
+        } else {
+            result.push(HEX_CHARS.charAt((code &gt;&gt; 12) &amp; 0x0F));
+            result.push(HEX_CHARS.charAt((code &gt;&gt; 8) &amp; 0x0F));
+            result.push(HEX_CHARS.charAt((code &gt;&gt; 4) &amp; 0x0F));
+            result.push(HEX_CHARS.charAt(code &amp; 0x0F));
+        }
+    }
+    return result.join('');
+}
+    </script>
+    <username>admin</username>
+  </custom_function>
+</content>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+  <id>com.ibm.community.aql.hexcodec</id>
+  <name>AQL Hex Codec Functions</name>
+  <version>1.0.0</version>
+  <description>Provides hexCodec::decode and hexCodec::encode AQL functions for converting between hex-encoded strings and ASCII/UTF-8 text. Designed for decoding Linux auditd hex-encoded fields (proctitle, cwd, exe, cmdline) directly within AQL queries.</description>
+  <short_description>Hex decode/encode functions for AQL</short_description>
+  <author>
+    <name>YOUR_NAME_HERE</name>
+    <organization>YOUR_ORGANIZATION_HERE</organization>
+    <email>your.email@example.com</email>
+    <url>https://github.com/YOUR_ORG/qradar-aql-hex-codec</url>
+  </author>
+  <supported_versions>
+    <qradar_version min="7.3.3" max="7.5.99"/>
+  </supported_versions>
+  <content_files>
+    <file>extensions/hexcodec/hexcodec.xml</file>
+  </content_files>
+  <categories>
+    <category>AQL Functions</category>
+    <category>Log Analysis</category>
+  </categories>
+  <license>Apache-2.0</license>
+</extension>
